@@ -11,17 +11,24 @@
       text-align: center;
       background-color: #fff0f5;
       font-family: 'Segoe UI', sans-serif;
-      position: relative;
       overflow: hidden;
     }
+
+    .main-content {
+      display: none;
+    }
+
     img {
       width: 80%;
       max-width: 600px;
       border-radius: 20px;
       margin-top: 30px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 1;
     }
-    .confetti {
+
+    .confetti,
+    .love-canvas {
       position: absolute;
       top: 0;
       left: 0;
@@ -31,6 +38,7 @@
       z-index: 2;
       display: none;
     }
+
     .play-button {
       position: absolute;
       top: 50%;
@@ -42,33 +50,63 @@
       z-index: 3;
       opacity: 0.8;
     }
+
+    .tap-text {
+      position: absolute;
+      top: calc(50% + 80px);
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 20px;
+      color: #555;
+      font-weight: bold;
+      z-index: 3;
+    }
   </style>
 </head>
 <body>
-  <h1>Congraduation Sayangkuu 💖</h1>
-  <img src="Warna Warni Modern Estetik Kolase Photo Bersama couples.png" alt="Kenangan Sayang" />
-  <audio id="bg-music" loop>
-    <source src="tesssss.mp3" type="audio/mp3" />
-    Your browser does not support the audio element.
-  </audio>
-
+  <!-- Tombol Play dan Teks -->
   <div class="play-button" onclick="startExperience()">▶️</div>
-  <canvas class="confetti"></canvas>
+  <div class="tap-text">Please tap this</div>
+
+  <!-- Konten utama (disembunyikan dulu) -->
+  <div class="main-content">
+    <h1>Congraduation Sayangkuu 💖</h1>
+    <img src="Warna Warni Modern Estetik Kolase Photo Bersama couples.png" alt="Kenangan Sayang" />
+    <audio id="bg-music" loop>
+      <source src="tesssss.mp3" type="audio/mp3" />
+      Your browser does not support the audio element.
+    </audio>
+    <canvas class="confetti"></canvas>
+    <canvas class="love-canvas"></canvas>
+  </div>
 
   <script>
     const audio = document.getElementById('bg-music');
     const confettiCanvas = document.querySelector('.confetti');
-    const ctx = confettiCanvas.getContext('2d');
+    const loveCanvas = document.querySelector('.love-canvas');
+    const confettiCtx = confettiCanvas.getContext('2d');
+    const loveCtx = loveCanvas.getContext('2d');
     let confetti = [];
+    let loveHearts = [];
 
     function startExperience() {
+      // Sembunyikan tombol play dan teks
       document.querySelector('.play-button').style.display = 'none';
+      document.querySelector('.tap-text').style.display = 'none';
+
+      // Tampilkan konten utama
+      document.querySelector('.main-content').style.display = 'block';
       confettiCanvas.style.display = 'block';
+      loveCanvas.style.display = 'block';
+
+      // Mainkan musik
       audio.play();
 
-      confettiCanvas.width = window.innerWidth;
-      confettiCanvas.height = window.innerHeight;
+      // Setup canvas
+      confettiCanvas.width = loveCanvas.width = window.innerWidth;
+      confettiCanvas.height = loveCanvas.height = window.innerHeight;
 
+      // Confetti
       for (let i = 0; i < 100; i++) {
         confetti.push({
           x: Math.random() * confettiCanvas.width,
@@ -79,21 +117,47 @@
         });
       }
 
+      // Hearts
+      for (let i = 0; i < 30; i++) {
+        loveHearts.push({
+          x: Math.random() < 0.5
+            ? Math.random() * 100
+            : loveCanvas.width - Math.random() * 100,
+          y: Math.random() * loveCanvas.height,
+          size: Math.random() * 20 + 10,
+          speed: Math.random() * 1.5 + 0.5
+        });
+      }
+
       setInterval(drawConfetti, 50);
+      setInterval(drawLove, 60);
     }
 
     function drawConfetti() {
-      ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
       for (let i = 0; i < confetti.length; i++) {
         const c = confetti[i];
-        ctx.beginPath();
-        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2, false);
-        ctx.fillStyle = c.color;
-        ctx.fill();
+        confettiCtx.beginPath();
+        confettiCtx.arc(c.x, c.y, c.r, 0, Math.PI * 2, false);
+        confettiCtx.fillStyle = c.color;
+        confettiCtx.fill();
         c.y += c.d;
         if (c.y > confettiCanvas.height) {
           c.y = 0;
           c.x = Math.random() * confettiCanvas.width;
+        }
+      }
+    }
+
+    function drawLove() {
+      loveCtx.clearRect(0, 0, loveCanvas.width, loveCanvas.height);
+      loveCtx.font = '20px sans-serif';
+      for (let i = 0; i < loveHearts.length; i++) {
+        const h = loveHearts[i];
+        loveCtx.fillText("❤️", h.x, h.y);
+        h.y += h.speed;
+        if (h.y > loveCanvas.height) {
+          h.y = 0;
         }
       }
     }
