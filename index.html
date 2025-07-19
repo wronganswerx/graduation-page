@@ -3,172 +3,120 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kenangan Sayang</title>
+  <title>Chapter Closed</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      text-align: center;
-      background-color: #fff0f5;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #f8f9fa;
       font-family: 'Segoe UI', sans-serif;
+      color: #343a40;
+      text-align: center;
       overflow: hidden;
     }
 
-    .main-content {
-      display: none;
-    }
-
-    img {
-      width: 80%;
+    .error-container {
       max-width: 600px;
-      border-radius: 20px;
-      margin-top: 30px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      z-index: 1;
+      padding: 2rem;
     }
 
-    .love-text {
-      margin-top: 20px;
-      font-size: 24px;
-      color: #e91e63;
-      font-weight: bold;
+    h1 {
+      font-size: 5rem;
+      margin: 0;
+      color: #e63946;
+      animation: fadeIn 2s;
     }
 
-    .confetti,
-    .love-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      pointer-events: none;
+    h2 {
+      font-size: 2rem;
+      margin-top: 0.5rem;
+      animation: fadeIn 3s;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin: 2rem 0;
+      animation: fadeIn 4s;
+    }
+
+    .moving-on {
+      font-style: italic;
+      color: #6c757d;
+      margin-top: 2rem;
+      animation: fadeIn 5s;
+    }
+
+    .emoji {
+      font-size: 3rem;
+      display: block;
+      margin: 1rem 0;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .progress-container {
       width: 100%;
+      max-width: 300px;
+      height: 8px;
+      background-color: #e9ecef;
+      border-radius: 4px;
+      margin: 2rem 0;
+      overflow: hidden;
+      animation: fadeIn 6s;
+    }
+
+    .progress-bar {
       height: 100%;
-      z-index: 2;
-      display: none;
+      width: 0;
+      background-color: #52b788;
+      animation: progress 3s forwards;
     }
 
-    .play-button {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 100px;
-      color: #ff69b4;
-      cursor: pointer;
-      z-index: 3;
-      opacity: 0.8;
-    }
-
-    .tap-text {
-      position: absolute;
-      top: calc(50% + 80px);
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 20px;
-      color: #555;
-      font-weight: bold;
-      z-index: 3;
+    @keyframes progress {
+      to { width: 100%; }
     }
   </style>
 </head>
 <body>
-  <!-- Tombol Play dan Teks -->
-  <div class="play-button" onclick="startExperience()">▶️</div>
-  <div class="tap-text">Please tap this</div>
-
-  <!-- Konten utama -->
-  <div class="main-content">
-    <h1>Congraduation Sayangkuu 💖</h1>
-    <img src="Warna Warni Modern Estetik Kolase Photo Bersama couples.png" alt="Kenangan Sayang" />
-    <div class="love-text">I love you more ❤️❤️❤️</div>
-    <audio id="bg-music" loop>
-      <source src="tesssss.mp3" type="audio/mp3" />
-      Your browser does not support the audio element.
-    </audio>
-    <canvas class="confetti"></canvas>
-    <canvas class="love-canvas"></canvas>
+  <div class="error-container">
+    <h1>404</h1>
+    <h2>Page Not Found</h2>
+    
+    <span class="emoji">🚀</span>
+    
+    <p>The developer has officially moved on from this chapter.</p>
+    <p>This digital space now serves as a monument to personal growth and forward momentum.</p>
+    
+    <div class="progress-container">
+      <div class="progress-bar"></div>
+    </div>
+    
+    <div class="moving-on">
+      "Some chapters must close for better ones to begin."
+    </div>
   </div>
 
   <script>
-    const audio = document.getElementById('bg-music');
-    const confettiCanvas = document.querySelector('.confetti');
-    const loveCanvas = document.querySelector('.love-canvas');
-    const confettiCtx = confettiCanvas.getContext('2d');
-    const loveCtx = loveCanvas.getContext('2d');
-    let confetti = [];
-    let loveHearts = [];
-
-    function startExperience() {
-      // Sembunyikan tombol play dan teks
-      document.querySelector('.play-button').style.display = 'none';
-      document.querySelector('.tap-text').style.display = 'none';
-
-      // Tampilkan konten utama
-      document.querySelector('.main-content').style.display = 'block';
-      confettiCanvas.style.display = 'block';
-      loveCanvas.style.display = 'block';
-
-      // Mainkan musik
-      audio.play();
-
-      // Setup canvas
-      confettiCanvas.width = loveCanvas.width = window.innerWidth;
-      confettiCanvas.height = loveCanvas.height = window.innerHeight;
-
-      // Confetti
-      for (let i = 0; i < 100; i++) {
-        confetti.push({
-          x: Math.random() * confettiCanvas.width,
-          y: Math.random() * confettiCanvas.height,
-          r: Math.random() * 6 + 2,
-          d: Math.random() * 10 + 1,
-          color: `hsl(${Math.random() * 360}, 100%, 50%)`
-        });
-      }
-
-      // Hearts
-      for (let i = 0; i < 30; i++) {
-        loveHearts.push({
-          x: Math.random() < 0.5
-            ? Math.random() * 100
-            : loveCanvas.width - Math.random() * 100,
-          y: Math.random() * loveCanvas.height,
-          size: Math.random() * 20 + 10,
-          speed: Math.random() * 1.5 + 0.5
-        });
-      }
-
-      setInterval(drawConfetti, 50);
-      setInterval(drawLove, 60);
-    }
-
-    function drawConfetti() {
-      confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-      for (let i = 0; i < confetti.length; i++) {
-        const c = confetti[i];
-        confettiCtx.beginPath();
-        confettiCtx.arc(c.x, c.y, c.r, 0, Math.PI * 2, false);
-        confettiCtx.fillStyle = c.color;
-        confettiCtx.fill();
-        c.y += c.d;
-        if (c.y > confettiCanvas.height) {
-          c.y = 0;
-          c.x = Math.random() * confettiCanvas.width;
-        }
-      }
-    }
-
-    function drawLove() {
-      loveCtx.clearRect(0, 0, loveCanvas.width, loveCanvas.height);
-      loveCtx.font = '20px sans-serif';
-      for (let i = 0; i < loveHearts.length; i++) {
-        const h = loveHearts[i];
-        loveCtx.fillText("❤️", h.x, h.y);
-        h.y += h.speed;
-        if (h.y > loveCanvas.height) {
-          h.y = 0;
-        }
-      }
-    }
+    // Simple console message
+    console.log("%c404 - Emotional Storage Cleared", 
+      "color: #e63946; font-size: 16px; font-weight: bold;");
+    console.log("%cAll cached memories have been properly archived.", 
+      "color: #6c757d; font-size: 14px;");
   </script>
 </body>
 </html>
